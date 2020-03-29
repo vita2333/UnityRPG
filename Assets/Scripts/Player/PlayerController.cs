@@ -1,4 +1,5 @@
-﻿using Animation.Actions;
+﻿using System.Collections.Generic;
+using Animation.Actions;
 using Animation.AnimationImporters;
 using Types;
 using UnityEngine;
@@ -26,7 +27,8 @@ namespace Player
         void Start()
         {
             // prepare charactor sprites
-            _playerObject = GameObject.Find("/Player"); // todo ???
+//            _playerObject = GameObject.Find("/Player"); // todo ???
+            _playerObject = gameObject; // todo ???
             _charAnimator = gameObject.AddComponent<AnimationRenderer>();
             InitializeCharacterRenderers(_charAnimator);
         
@@ -39,14 +41,30 @@ namespace Player
 
         private void InitializeCharacterRenderers(AnimationRenderer charAnimator)
         {
-            Debug.Log("InitializeCharacterRenderers==="+charAnimator);
+            var spriteRenderers = new Dictionary<string, SpriteRenderer>();
+            foreach (var blockKey in DNABlockType.TypeList)
+            {
+                GameObject blockObject=new GameObject(blockKey);
+                blockObject.transform.parent = _playerObject.transform;
+                spriteRenderers[blockKey] = blockObject.AddComponent<SpriteRenderer>();
+            }
+            
+            charAnimator.InitializeSpriteRenderers(spriteRenderers);
         }
 
         // Update is called once per frame
         void Update()
         {
+            
         }
-    
-    
+
+        void UpdatePositoning()
+        {
+            
+        }
+
+        void UpdateAnimation()
+        {
+        }
     }
 }
