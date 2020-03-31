@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Animation.Actions;
-using Animation.AnimationImporters;
+using Animation;
 using Types;
 using UnityEngine;
 
@@ -26,7 +26,7 @@ namespace Character
         // Start is called before the first frame update
         void Start()
         {
-            Debug.Log("play===");
+            Debug.Log("play start===");
             // prepare charactor sprites
             _playerObject = GameObject.Find("/Player"); // todo ???
 //            _playerObject = gameObject; // todo ???

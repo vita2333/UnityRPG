@@ -4,7 +4,7 @@ using Character;
 using Types;
 using UnityEngine;
 
-namespace Animation.AnimationImporters
+namespace Animation
 {
     public class AnimationManager
     {
@@ -16,8 +16,7 @@ namespace Animation.AnimationImporters
             // All directional actions
             _directionalActions = new List<BaseAction>
             {
-                //todo
-                new IdleAction()
+               new SlashAction()
             };
         }
 
@@ -46,7 +45,7 @@ namespace Animation.AnimationImporters
                 foreach (AnimationDNABlock newAnimation in newAnimations)
                 {
                     string animationKey =
-                        $"{modelKey}_{directionalAction.AnimatonTag}_{DirectionType.GetAnimationForDirection(newAnimation.Direction)}";
+                        $"{modelKey}_{directionalAction.AnimationTag}_{DirectionType.GetAnimationForDirection(newAnimation.Direction)}";
                     animationCache.Add(animationKey, newAnimation);
                 }
             }
@@ -89,8 +88,8 @@ namespace Animation.AnimationImporters
             AnimationCache animationCache = AnimationCache.Instance;
             string animationKey = modelKey;
             animationKey = direction.Equals(DirectionType.None)
-                ? $"{animationKey}_{actionAnimation.AnimatonTag}"
-                : $"{animationKey}_{actionAnimation.AnimatonTag}_{DirectionType.GetAnimationForDirection(direction)}";
+                ? $"{animationKey}_{actionAnimation.AnimationTag}"
+                : $"{animationKey}_{actionAnimation.AnimationTag}_{DirectionType.GetAnimationForDirection(direction)}";
             return animationCache.Get(animationKey);
         }
     }

@@ -1,4 +1,4 @@
-using Animation.AnimationImporters;
+using Animation;
 
 namespace Animation.Actions
 {
@@ -9,12 +9,12 @@ namespace Animation.Actions
             NumberOfFrames = 1;
         }
 
-        public override string AnimatonTag => "hu";
+        public override string AnimationTag => "hu";
         public override bool StopOnLastFrame => false;
 
         public override IAnimationImporter GetAnimationImporter()
         {
-            var animatonTag = AnimatonTag;
+            var animatonTag = AnimationTag;
             var SpriteStartIndex = 0;
             var stopOnFinalFrame = StopOnLastFrame;
             return new SingleAnimationImporter(animatonTag, NumberOfFrames, SpriteStartIndex, stopOnFinalFrame);

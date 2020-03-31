@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Animation.AnimationImporters
+namespace Animation
 {
     public interface IAnimationImporter
     {

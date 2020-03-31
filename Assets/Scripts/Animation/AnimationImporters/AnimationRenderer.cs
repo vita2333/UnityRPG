@@ -4,7 +4,7 @@ using System.Linq;
 using Animation.Actions;
 using UnityEngine;
 
-namespace Animation.AnimationImporters
+namespace Animation
 {
     public class AnimationRenderer : MonoBehaviour
     {

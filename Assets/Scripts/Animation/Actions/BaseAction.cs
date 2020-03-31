@@ -1,11 +1,11 @@
 using System;
-using Animation.AnimationImporters;
+using Animation;
 
 namespace Animation.Actions
 {
     public abstract class BaseAction
     {
-        public abstract string AnimatonTag { get; }
+        public abstract string AnimationTag { get; }
         public abstract bool StopOnLastFrame { get; }
         public string Direction;
         private int _numberOfFrames;

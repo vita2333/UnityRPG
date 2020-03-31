@@ -14,7 +14,7 @@ namespace Character
             ModelKey = "UNKNOWN";
             ItemColor = new Color();
             Enabled = false;
-            IsDirty = false;  // todo ???
+            IsDirty = false; // todo ???
         }
 
         public CharacterDNABlock(string itemKey)
@@ -48,8 +48,7 @@ namespace Character
             ModelKey = modelKey;
             IsDirty = true;
             // disable the character block if there is no model key
-            Enabled = modelKey.Length > 0;           
-
+            Enabled = modelKey.Length > 0;
         }
     }
 }

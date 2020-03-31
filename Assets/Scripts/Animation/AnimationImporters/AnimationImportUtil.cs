@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Types;
 using UnityEngine;
 
-namespace Animation.AnimationImporters
+namespace Animation
 {
     public class AnimationImportUtil
     {

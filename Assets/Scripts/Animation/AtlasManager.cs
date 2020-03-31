@@ -17,11 +17,11 @@ namespace Animation
 
         public List<string> ModelList = new List<string>();
         public int ModelsLoaded;
-        public int ModelTotal ;
+        public int ModelsTotal ;
 
         private void Start()
         {
-            Debug.Log("===atlas manager");
+            Debug.Log("atlas start===");
             // Initialize atlas dictionaries for all block types
             foreach (var blockType in DNABlockType.TypeList)
             {
