@@ -36,21 +36,15 @@ public class AtlasManagerEditor : Editor
                 SearchOption.AllDirectories);
             LoadFiles(characterSprites);
             LoadFiles(equipmentSprites);
-            
+
             // update the model-list text file
-            using (StreamWriter outputFile=new StreamWriter("model-list.txt"))
+            using (StreamWriter outputFile = new StreamWriter("model-list.txt"))
             {
-                foreach (string model in _am.ModelList)
-                {
-                    outputFile.WriteLine(model);
-                }
+                foreach (string model in _am.ModelList) { outputFile.WriteLine(model); }
             }
         }
 
-        if (GUILayout.Button("Unload"))
-        {
-            UnloadSprites();
-        }
+        if (GUILayout.Button("Unload")) { UnloadSprites(); }
 
         DrawDefaultInspector();
         serializedObject.ApplyModifiedProperties();
@@ -61,13 +55,25 @@ public class AtlasManagerEditor : Editor
         foreach (string file in files)
         {
             string filepath = file.Replace("\\", "/");
-            if (!filepath.EndsWith(".png"))
-            {
-                continue;
-            }
+            if (!filepath.EndsWith(".png")) { continue; }
 
             filepath = filepath.Replace(Application.dataPath, "");
             UpdateModelList(filepath);
+
+            // Load all sprites and add them to the Atlas Manager's sprite list
+            // These will be available at runtime thanks to the data being serialized.
+
+            var items = AssetDatabase.LoadAllAssetsAtPath("Assets" + filepath);
+
+            foreach (Object item in items)
+            {
+                Sprite s = item as Sprite;
+                if (s == null) { continue; }
+
+                Debug.Log("sprite name===" + s.name);
+                _am.SpriteList.Add(s);
+                _dirty = true;
+            }
         }
     }
 
@@ -76,7 +82,7 @@ public class AtlasManagerEditor : Editor
         // Add the spritesheet (model) to the model list 
         var pathBranch = filepath.Split('/');
         string prefix = "";
-        for (int i = 0; i < pathBranch.Length-1; i++)
+        for (int i = 4; i < pathBranch.Length - 1; i++)
         {
             string node = pathBranch[i];
             var splitNode = node.Split('.');
