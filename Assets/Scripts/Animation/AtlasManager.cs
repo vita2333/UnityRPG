@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using Types;
 using UnityEngine;
 
@@ -16,10 +17,11 @@ namespace Animation
 
         public List<string> ModelList = new List<string>();
         public int ModelsLoaded;
-        public int ModelTotal = 0;
+        public int ModelTotal ;
 
         private void Start()
         {
+            Debug.Log("===atlas manager");
             // Initialize atlas dictionaries for all block types
             foreach (var blockType in DNABlockType.TypeList)
             {
@@ -41,13 +43,32 @@ namespace Animation
                 }
             }
 
-            Instance = this;
+//            Instance = this; todo ???
+            Instance = GetComponent<AtlasManager>();
         }
-        
+
         public void IncrementModelLoaded()
         {
             Instance.ModelsLoaded++;
         }
 
+        public Sprite GetSprite(string nameSprite)
+        {
+            if (Instance == null)
+            {
+                throw new Exception("Sprites not loaded into the AtlasManager! " +
+                                    "Add the LPCAtlasManagerEditor script to a GameObject and click Load.");
+            }
+
+            var collection = Instance._atlasLookup[nameSprite.Split('_')[0].ToUpper()];
+            Sprite item = collection.SafeGet(nameSprite);
+            if (item == null)
+            {
+                Debug.Log("MISSING SPRITE!");
+                throw new Exception("MISSING SPRITE!");
+            }
+
+            return collection[nameSprite];
+        }
     }
 }
