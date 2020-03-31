@@ -42,7 +42,6 @@ namespace Scene
                 Thread thread = new Thread(_animationManager.LoadAllAnimationsIntoCache);
                 thread.Start();
             }
-            Debug.Log("scene update=====" + AtlasManager.Instance.ModelsLoaded);
         }
 
         private void OnGUI()
@@ -59,7 +58,7 @@ namespace Scene
                     "加载所有Sprite中..." + Math.Floor((double) modelsLoaded / modelTotal * 100) + "%");
                 Debug.Log("modelsLoaded===" + modelsLoaded);
                 Debug.Log("modelTotal===" + modelTotal);
-                if (modelsLoaded == modelTotal) return;
+//                if (modelsLoaded == modelTotal) return;
 
                 // The sprites are all cached. Lets initialize the scene.
                 InitializeCharacterUI();

@@ -16,7 +16,12 @@ namespace Animation
             // All directional actions
             _directionalActions = new List<BaseAction>
             {
-               new SlashAction()
+               new SlashAction(),
+               new SpellcastAction(),
+               new ThrustAction(),
+               new WalkAction(),
+               new ShootAction(),
+               new DeathAction()
             };
         }
 

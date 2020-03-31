@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Core;
 using Types;
+using UnityEditor.U2D;
 using UnityEngine;
 
 namespace Animation
@@ -17,7 +18,7 @@ namespace Animation
 
         public List<string> ModelList = new List<string>();
         public int ModelsLoaded;
-        public int ModelsTotal ;
+        public int ModelsTotal;
 
         private void Start()
         {
@@ -68,6 +69,7 @@ namespace Animation
                 throw new Exception("MISSING SPRITE!");
             }
 
+            Debug.Log("===" + item.GetSpriteID());
             return collection[nameSprite];
         }
     }
