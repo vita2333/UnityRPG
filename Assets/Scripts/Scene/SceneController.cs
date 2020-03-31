@@ -51,14 +51,13 @@ namespace Scene
             {
                 int modelsLoaded = AtlasManager.Instance.ModelsLoaded;
                 int modelTotal = AtlasManager.Instance.ModelsTotal;
-                var text = AtlasManager.Instance;
 
                 // Loading message
                 GUI.Box(new Rect(0, 0, Screen.width, Screen.height),
                     "加载所有Sprite中..." + Math.Floor((double) modelsLoaded / modelTotal * 100) + "%");
                 Debug.Log("modelsLoaded===" + modelsLoaded);
                 Debug.Log("modelTotal===" + modelTotal);
-//                if (modelsLoaded == modelTotal) return;
+                if (modelsLoaded == modelTotal) return;
 
                 // The sprites are all cached. Lets initialize the scene.
                 InitializeCharacterUI();

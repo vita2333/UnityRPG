@@ -55,7 +55,17 @@ namespace Animation
                 }
             }
             
-            
+            // The "Idle" action reuses the first image of the death animation, so we need
+            // to import the first frame of all death sprites without a direction tag.
+            BaseAction deathAnimation = new DeathAction();
+            var deathImporter = deathAnimation.GetAnimationImporter();
+            var deathAnimations = deathImporter.ImportAnimations(modelKey, DirectionType.None);
+
+            foreach (AnimationDNABlock newAnimation in deathAnimations)
+            {
+                string animationKey = $"{modelKey}_{deathAnimation.AnimationTag}";
+                animationCache.Add(animationKey, newAnimation);
+            }
         }
 
 

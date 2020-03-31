@@ -69,7 +69,6 @@ namespace Animation
                 throw new Exception("MISSING SPRITE!");
             }
 
-            Debug.Log("===" + item.GetSpriteID());
             return collection[nameSprite];
         }
     }
