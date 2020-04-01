@@ -64,8 +64,8 @@ namespace Character
 
         void UpdateAnimation()
         {
-            string newDirection = DirectionType.None;
-            _newInput = KeyCode.None;
+            string newDirection;
+            HanleInput(out newDirection);
             if (newDirection == DirectionType.None) { newDirection = _lastDirection; }
 
             bool sameAction = _lastDirection == newDirection && _lastInput == _newInput;
@@ -80,6 +80,39 @@ namespace Character
 
             _lastDirection = _newAction.Direction = newDirection;
             _lastInput = _newInput;
+        }
+
+        void HanleInput(out string newDirection)
+        {
+            if (Input.GetKeyDown(KeyCode.W) && _newInput != KeyCode.W)
+            {
+                newDirection = DirectionType.Up;
+                _newAction = new WalkAction();
+                _newInput = KeyCode.W;
+            }
+            else if (Input.GetKeyDown(KeyCode.A) && _newInput != KeyCode.A)
+            {
+                newDirection = DirectionType.Left;
+                _newAction = new WalkAction();
+                _newInput = KeyCode.A;
+            }
+            else if (Input.GetKeyDown(KeyCode.S) && _newInput != KeyCode.S)
+            {
+                newDirection = DirectionType.Down;
+                _newAction = new WalkAction();
+                _newInput = KeyCode.S;
+            }
+            else if (Input.GetKeyDown(KeyCode.D) && _newInput != KeyCode.D)
+            {
+                newDirection = DirectionType.Right;
+                _newAction = new WalkAction();
+                _newInput = KeyCode.D;
+            }
+            else
+            {
+                _newInput = KeyCode.None;
+                newDirection = DirectionType.None;
+            }
         }
     }
 }
