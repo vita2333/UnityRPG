@@ -38,7 +38,7 @@ namespace Animation
                     // eg: BACK
                     _atlasLookup[blockType][sprite.name] = sprite;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Debug.Log($"Failed to load sprite for atlas key; {blockType} sprite name {sprite.name}");
                 }
