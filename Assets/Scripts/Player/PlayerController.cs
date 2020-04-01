@@ -88,6 +88,7 @@ namespace Character
 
         void HanleInput(out string newDirection)
         {
+            newDirection = DirectionType.None;
             if (Input.GetKeyDown(KeyCode.W) && _newInput != KeyCode.W)
             {
                 newDirection = DirectionType.Up;
@@ -112,10 +113,39 @@ namespace Character
                 _newAction = new WalkAction();
                 _newInput = KeyCode.D;
             }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _newAction = new SlashAction();
+                _newInput = KeyCode.Space;
+                SpeedAnimation = 1.0f;
+            }
+            else if (Input.GetKeyDown(KeyCode.F))
+            {
+                _newAction = new ThrustAction();
+                _newInput = KeyCode.F;
+                SpeedAnimation = 1.0f;
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                _newAction = new SpellcastAction();
+                _newInput = KeyCode.R;
+                SpeedAnimation = 1.0f;
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                _newAction = new ShootAction();
+                _newInput = KeyCode.E;
+                SpeedAnimation = 1.0f;
+            }
+            else if (Input.GetKeyDown(KeyCode.X))
+            {
+                _newAction = new DeathAction();
+                _newInput = KeyCode.X;
+                SpeedAnimation = 1.0f;
+            }
             else
             {
                 _newInput = KeyCode.None;
-                newDirection = DirectionType.None;
             }
         }
     }
