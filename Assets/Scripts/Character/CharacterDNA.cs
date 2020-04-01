@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Types;
@@ -13,23 +14,19 @@ namespace Character
         // stats (race, hair, etc..) as well as their armor/weapons rather 
         // than being lumped together into one class
 
-        public Dictionary<string, CharacterDNABlock> DNABlocks =>
-            DNABlockType.TypeList.ToDictionary(bt => bt, v => new CharacterDNABlock());
-
-        public void UpdateBlock(string blockKey, string itemKey, Color color)
+        public Dictionary<string, CharacterDNABlock> DNABlocks { get; } = DNABlockType.TypeList.ToDictionary(bt => bt, v => new CharacterDNABlock());
+        
+        public void UpdateBlock(string blockKey, string modelKey, Color color)
         {
-            CharacterDNABlock dnaBlock = DNABlocks[blockKey];
-            dnaBlock.Update(itemKey, color);
+            var dnaBlock = DNABlocks[blockKey];
+            dnaBlock.Update(modelKey, color);
         }
 
         public bool IsDirty()
         {
             foreach (string blockKey in DNABlocks.Keys)
             {
-                if (DNABlocks[blockKey].IsDirty)
-                {
-                    return true;
-                }
+                if (DNABlocks[blockKey].IsDirty) { return true; }
             }
 
             return false;

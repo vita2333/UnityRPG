@@ -27,13 +27,14 @@ namespace Character
             Update(itemKey, itemColor);
         }
 
-        public void Update(string itemKey, Color itemColor)
+        public void Update(string modelKey, Color itemColor)
         {
-            ModelKey = itemKey;
+            ModelKey = modelKey;
             ItemColor = itemColor;
             IsDirty = true;
+            Debug.Log("block update===");
             // disable the character block if there is no model key
-            Enabled = itemKey.Length > 0;
+            Enabled = modelKey.Length > 0;
         }
 
         public void UpdateColor(Color itemColor)
