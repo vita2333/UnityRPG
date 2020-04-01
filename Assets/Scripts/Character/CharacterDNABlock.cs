@@ -32,7 +32,6 @@ namespace Character
             ModelKey = modelKey;
             ItemColor = itemColor;
             IsDirty = true;
-            Debug.Log("block update===");
             // disable the character block if there is no model key
             Enabled = modelKey.Length > 0;
         }

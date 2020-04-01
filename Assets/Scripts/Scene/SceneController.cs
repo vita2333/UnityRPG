@@ -59,8 +59,6 @@ namespace Scene
                 // Loading message
                 GUI.Box(new Rect(0, 0, Screen.width, Screen.height),
                     "加载所有Sprite中..." + Math.Floor((double) modelsLoaded / modelTotal * 100) + "%");
-                Debug.Log("modelsLoaded===" + modelsLoaded);
-                Debug.Log("modelTotal===" + modelTotal);
                 if (!_threadStarting && modelsLoaded == modelTotal) { return; }
 
                 if (modelsLoaded == modelTotal) { _threadStarting = false; }
@@ -119,8 +117,6 @@ namespace Scene
             // this will update the characterDNA, flagging it as dirty and causing the first frame to animate
             Player.CharacterDNA.UpdateBlock(DNABlockType.Neck, _modelTextLookup[DNABlockType.Neck],
                 _modelColorLookup[DNABlockType.Neck]);
-            var a = Player.CharacterDNA.IsDirty();
-            var b = Player.CharacterDNA.DNABlocks["NECK"];
             Player.CharacterDNA.UpdateBlock(DNABlockType.Back, _modelTextLookup[DNABlockType.Back],
                 _modelColorLookup[DNABlockType.Back]);
             Player.CharacterDNA.UpdateBlock(DNABlockType.Chest, _modelTextLookup[DNABlockType.Chest],
