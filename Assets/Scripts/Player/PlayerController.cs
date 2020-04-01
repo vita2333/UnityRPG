@@ -28,8 +28,7 @@ namespace Character
         {
             Debug.Log("play start===");
             // prepare charactor sprites
-            _playerObject = GameObject.Find("/Player"); // todo ???
-//            _playerObject = gameObject; // todo ???
+            _playerObject = GameObject.Find("/Player"); // same as      _playerObject = gameObject;
             _charAnimator = gameObject.AddComponent<AnimationRenderer>();
             InitializeCharacterRenderers(_charAnimator);
 

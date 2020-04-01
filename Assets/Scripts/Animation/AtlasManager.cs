@@ -43,9 +43,8 @@ namespace Animation
                     Debug.Log($"Failed to load sprite for atlas key; {blockType} sprite name {sprite.name}");
                 }
             }
-
-//            Instance = this; todo ???
-            Instance = GetComponent<AtlasManager>();
+            
+            Instance = GetComponent<AtlasManager>(); // same as  Instance = this;
         }
 
         public void IncrementModelLoaded()
