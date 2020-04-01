@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Animation.Actions;
 using Animation;
+using Animation.Actions;
 using Types;
 using UnityEngine;
 
@@ -66,11 +66,15 @@ namespace Character
         {
             string newDirection;
             HanleInput(out newDirection);
+            
+            
+            // continue using the last direction when the character stops moving
             if (newDirection == DirectionType.None) { newDirection = _lastDirection; }
 
             bool sameAction = _lastDirection == newDirection && _lastInput == _newInput;
+            
             _charAnimator.UpdateAnimationTime(1 / SpeedAnimation);
-            Debug.Log("Player.CharacterDNA.IsDirty===" + Player.CharacterDNA.IsDirty());
+
             if (!sameAction || Player.CharacterDNA.IsDirty())
             {
                 AnimationManager.UpdateDNAForAction(Player.CharacterDNA, Player.AnimationDNA, _newAction, newDirection);

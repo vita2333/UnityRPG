@@ -33,9 +33,7 @@ namespace Animation
             if (!_playing) return;
             bool hasAnimationKeys = _animationDNA?.DNABlocks?.Keys.Any() == true;
             if (!hasAnimationKeys) return;
-
             int currentFrameIndex = _currentFrameNumber % CurrentAnimationAction.NumberOfFrames; // % 求余数
-
             if (_stopNow || (_stopOnFinalFrame && currentFrameIndex == 0))
             {
                 _playing = false;
@@ -48,6 +46,7 @@ namespace Animation
 
             _passedTime += Time.deltaTime;
             float singleAnimTime = _totalAnimTimeInSeconds / CurrentAnimationAction.NumberOfFrames;
+
             if (_passedTime >= singleAnimTime)
             {
                 _currentFrameNumber++;
@@ -82,7 +81,6 @@ namespace Animation
 
         public void AnimateAction(AnimationDNA animationDna, BaseAction animationAction)
         {
-            Debug.Log("animationDna===" + animationDna);
             _animationDNA = animationDna;
             CurrentAnimationAction = animationAction;
             _stopOnFinalFrame = animationAction.StopOnLastFrame;

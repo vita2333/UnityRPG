@@ -16,12 +16,12 @@ namespace Animation
             // All directional actions
             _directionalActions = new List<BaseAction>
             {
-               new SlashAction(),
-               new SpellcastAction(),
-               new ThrustAction(),
-               new WalkAction(),
-               new ShootAction(),
-               new DeathAction()
+                new SlashAction(),
+                new SpellcastAction(),
+                new ThrustAction(),
+                new WalkAction(),
+                new ShootAction(),
+                new DeathAction()
             };
         }
 
@@ -54,7 +54,7 @@ namespace Animation
                     animationCache.Add(animationKey, newAnimation);
                 }
             }
-            
+
             // The "Idle" action reuses the first image of the death animation, so we need
             // to import the first frame of all death sprites without a direction tag.
             BaseAction deathAnimation = new DeathAction();
@@ -94,6 +94,8 @@ namespace Animation
                     // Disable the animation slot if the character slot isnt enabled
                     animationDNA.DNABlocks[blockType].Enabled = false;
                 }
+
+                characterDnaBlock.IsDirty = false;
             }
         }
 
