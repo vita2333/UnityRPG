@@ -7,14 +7,14 @@ namespace Character
         public string ModelKey;
         public Color ItemColor;
         public bool Enabled;
-        public bool IsDirty;
+        public bool IsDirty { get; set; }
 
         public CharacterDNABlock()
         {
             ModelKey = "UNKNOWN";
             ItemColor = new Color();
             Enabled = false;
-            IsDirty = false; // todo ???
+            IsDirty = false;
         }
 
         public CharacterDNABlock(string itemKey)

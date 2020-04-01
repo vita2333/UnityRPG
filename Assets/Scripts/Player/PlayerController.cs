@@ -70,11 +70,8 @@ namespace Character
             if (newDirection == DirectionType.None) { newDirection = _lastDirection; }
 
             bool sameAction = _lastDirection == newDirection && _lastInput == _newInput;
-
             _charAnimator.UpdateAnimationTime(1 / SpeedAnimation);
-
-            var text = Player.CharacterDNA;
-            
+            Debug.Log("Player.CharacterDNA.IsDirty===" + Player.CharacterDNA.IsDirty());
             if (!sameAction || Player.CharacterDNA.IsDirty())
             {
                 AnimationManager.UpdateDNAForAction(Player.CharacterDNA, Player.AnimationDNA, _newAction, newDirection);
