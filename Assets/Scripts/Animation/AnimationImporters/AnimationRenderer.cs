@@ -18,8 +18,8 @@ namespace Animation
         private bool _stopOnFinalFrame;
         private bool _stopNow;
         private float _totalAnimTimeInSeconds;
-        
-        
+
+
         private void Start()
         {
             _passedTime = 0;
@@ -41,40 +41,48 @@ namespace Animation
                 _playing = false;
                 _stopNow = false;
                 _passedTime = 0;
-                foreach (string animationKey in _animationDNA.DNABlocks.Keys)
-                {
-                    RenderAnimationFrame(animationKey,0);
-                }
+                foreach (string animationKey in _animationDNA.DNABlocks.Keys) { RenderAnimationFrame(animationKey, 0); }
 
                 return;
             }
-            
-            
+
+            _passedTime += Time.deltaTime;
+            float singleAnimTime = _totalAnimTimeInSeconds / CurrentAnimationAction.NumberOfFrames;
+            if (_passedTime >= singleAnimTime)
+            {
+                _currentFrameNumber++;
+                foreach (string animationKey in _animationDNA.DNABlocks.Keys)
+                {
+                    RenderAnimationFrame(animationKey, currentFrameIndex);
+                }
+
+                _passedTime = 0;
+            }
         }
 
         void RenderAnimationFrame(string animationKey, int currentFrameIndex)
         {
             AnimationDNABlock animationDnaBlock = _animationDNA.DNABlocks[animationKey];
             SpriteRenderer rendererCurrent = _spriteRenderers[animationKey];
-            if (animationDnaBlock?.Enabled==true)
+            if (animationDnaBlock?.Enabled == true)
             {
                 // set sprite renderer info
                 rendererCurrent.sprite = animationDnaBlock.SpriteList[currentFrameIndex];
                 rendererCurrent.sortingOrder = animationDnaBlock.SortingOrder;
                 rendererCurrent.sortingLayerName = "Units";
-                
+
                 // Don't color clear objects
-                if (animationDnaBlock.SpriteColor!=Color.clear)
+                if (animationDnaBlock.SpriteColor != Color.clear)
                 {
-                    rendererCurrent.material.SetColor("_Color",animationDnaBlock.SpriteColor);
+                    rendererCurrent.material.SetColor("_Color", animationDnaBlock.SpriteColor);
                 }
             }
             else { rendererCurrent.sprite = null; }
         }
-        
-        public void AnimateAction(AnimationDNA animationDna,BaseAction animationAction)
+
+        public void AnimateAction(AnimationDNA animationDna, BaseAction animationAction)
         {
-            Debug.Log("animationDna==="+animationDna);
+            Debug.Log("animationDna===" + animationDna);
             _animationDNA = animationDna;
             CurrentAnimationAction = animationAction;
             _stopOnFinalFrame = animationAction.StopOnLastFrame;
@@ -87,7 +95,7 @@ namespace Animation
         {
             _stopNow = true;
         }
-        
+
         public void InitializeSpriteRenderers(Dictionary<string, SpriteRenderer> spriteRenderers)
         {
             _spriteRenderers = spriteRenderers;

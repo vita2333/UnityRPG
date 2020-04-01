@@ -14,8 +14,9 @@ namespace Character
         // stats (race, hair, etc..) as well as their armor/weapons rather 
         // than being lumped together into one class
 
-        public Dictionary<string, CharacterDNABlock> DNABlocks { get; } = DNABlockType.TypeList.ToDictionary(bt => bt, v => new CharacterDNABlock());
-        
+        public Dictionary<string, CharacterDNABlock> DNABlocks { get; } =
+            DNABlockType.TypeList.ToDictionary(bt => bt, v => new CharacterDNABlock());
+
         public void UpdateBlock(string blockKey, string modelKey, Color color)
         {
             var dnaBlock = DNABlocks[blockKey];

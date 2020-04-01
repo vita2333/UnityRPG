@@ -34,7 +34,7 @@ namespace Scene
             _playerController = _player.GetComponent<PlayerController>();
         }
 
-        private bool _threadStarting = false;
+        private bool _threadStarting;
 
         private void Update()
         {
