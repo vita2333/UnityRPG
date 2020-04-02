@@ -25,7 +25,6 @@ namespace Animation
 
         private void Start()
         {
-            Debug.Log("atlas start===");
             // Initialize atlas dictionaries for all block types
             foreach (string blockType in DNABlockType.TypeList)
             {

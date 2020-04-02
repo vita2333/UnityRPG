@@ -26,7 +26,6 @@ namespace Character
         // Start is called before the first frame update
         void Start()
         {
-            Debug.Log("play start===");
             // prepare charactor sprites
             _playerObject = GameObject.Find("/Player"); // same as      _playerObject = gameObject;
             _charAnimator = gameObject.AddComponent<AnimationRenderer>();
@@ -60,7 +59,7 @@ namespace Character
 
         void UpdatePositoning()
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift)) { SpeedCurrent = SpeedRun; }
+            if (Input.GetKey(KeyCode.LeftShift)) { SpeedCurrent = SpeedRun; }
             else { SpeedCurrent = SpeedWalk; }
 
             SpeedAnimation = SpeedCurrent;

@@ -25,7 +25,6 @@ namespace Scene
 
         private void Start()
         {
-            Debug.Log("scene start===");
             _animationManager = new AnimationManager();
             _animationLoading = false;
             _animationsLoaded = false;
@@ -37,7 +36,6 @@ namespace Scene
 
         private void Update()
         {
-            Debug.Log("scene update===");
             if (!_animationLoading)
             {
                 _animationLoading = true;
@@ -48,7 +46,6 @@ namespace Scene
 
         private void OnGUI()
         {
-            Debug.Log("scene gui===");
             if (!_animationsLoaded)
             {
                 int modelsLoaded = AtlasManager.Instance.ModelsLoaded;
@@ -66,7 +63,6 @@ namespace Scene
                 _animationsLoaded = true;
                 _playerController.enabled = true; // 此处启用PlayController,保证PlayerController在加载后执行
             }
-            else { Debug.Log("===todo"); }
         }
 
         void InitializeCharacterUI()

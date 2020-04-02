@@ -29,7 +29,6 @@ namespace Animation
 
         private void Update()
         {
-            Debug.Log("animation renderer update===");
             if (!_playing) return;
             bool hasAnimationKeys = _animationDNA?.DNABlocks?.Keys.Any() == true;
             if (!hasAnimationKeys) return;
