@@ -15,6 +15,7 @@ namespace Animation
             var spriteList = new List<Sprite>();
             for (int i = 0; i < singleAnimationImporter.NumberOfFrames; i++)
             {
+                // spriteKey eg: "ears_male_big_dark_sc_t_2"
                 string spriteKey = animationKey + "_" + i;
                 Sprite sprite = AtlasManager.Instance.GetSprite(spriteKey);
                 spriteList.Add(sprite);

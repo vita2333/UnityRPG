@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Core;
 using Types;
-using UnityEditor.U2D;
 using UnityEngine;
 
 namespace Animation
@@ -16,6 +15,10 @@ namespace Animation
 
         [HideInInspector] public List<Sprite> SpriteList = new List<Sprite>();
 
+        /**
+         * Model is the same as CharacterDNABlock's ModelKey.
+         * eg: "body_female_light"
+         */
         public List<string> ModelList = new List<string>();
         public int ModelsLoaded;
         public int ModelsTotal;
@@ -24,12 +27,12 @@ namespace Animation
         {
             Debug.Log("atlas start===");
             // Initialize atlas dictionaries for all block types
-            foreach (var blockType in DNABlockType.TypeList)
+            foreach (string blockType in DNABlockType.TypeList)
             {
                 _atlasLookup[blockType] = new Dictionary<string, Sprite>();
             }
 
-            // Sort each sprite in the spritelist into respective dictionary
+            // Sort each sprite in the spriteList into respective dictionary
             foreach (var sprite in SpriteList)
             {
                 string blockType = sprite.name.Split('_')[0].ToUpper();
@@ -43,7 +46,7 @@ namespace Animation
                     Debug.Log($"Failed to load sprite for atlas key; {blockType} sprite name {sprite.name}");
                 }
             }
-            
+
             Instance = GetComponent<AtlasManager>(); // same as  Instance = this;
         }
 

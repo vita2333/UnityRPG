@@ -7,7 +7,6 @@ namespace Animation.Actions
         {
             NumberOfFrames = 6;
         }
-
         public override IAnimationImporter GetAnimationImporter()
         {
             var animationTag = AnimationTag;

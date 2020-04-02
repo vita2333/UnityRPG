@@ -4,10 +4,22 @@ namespace Character
 {
     public class CharacterDNABlock
     {
+        /**
+         * Name of the animation frame, exclude direction.
+         * eg: "body_female_light"
+         */
         public string ModelKey;
+
         public Color ItemColor;
+
+        /**
+          * Controlling the availability of DNA blocks.
+         */
         public bool Enabled;
-        public bool IsDirty { get; set; }
+        /**
+         * Set to true to render a new animation.
+         */
+        public bool IsDirty;
 
         public CharacterDNABlock()
         {
@@ -30,6 +42,7 @@ namespace Character
         public void Update(string modelKey, Color itemColor)
         {
             ModelKey = modelKey;
+            Debug.Log("modelKey===" + modelKey);
             ItemColor = itemColor;
             IsDirty = true;
             // disable the character block if there is no model key

@@ -42,7 +42,7 @@ namespace Scene
             {
                 _animationLoading = true;
                 Thread thread = new Thread(_animationManager.LoadAllAnimationsIntoCache);
-                thread.Start();
+                thread.Start(); // todo learn it.
             }
         }
 
@@ -100,11 +100,12 @@ namespace Scene
             // this will populate the UI
             _modelColorLookup[DNABlockType.Back] = Color.red;
             _modelColorLookup[DNABlockType.Neck] = Color.red;
+            _modelColorLookup[DNABlockType.Hair] = Color.yellow;
             _modelTextLookup[DNABlockType.Back] = "back_female_cape";
             _modelTextLookup[DNABlockType.Neck] = "neck_female_capeclip";
             _modelTextLookup[DNABlockType.Chest] = "chest_female_tightdress";
             _modelTextLookup[DNABlockType.Feet] = "feet_female_shoes";
-            _modelTextLookup[DNABlockType.Hair] = "hair_female_shoulderr";
+            _modelTextLookup[DNABlockType.Hair] = "hair_female_longknot";
             _modelTextLookup[DNABlockType.Hands] = "hands_female_cloth";
             _modelTextLookup[DNABlockType.Legs] = "legs_female_pants";
             _modelTextLookup[DNABlockType.Body] = "body_female_light";

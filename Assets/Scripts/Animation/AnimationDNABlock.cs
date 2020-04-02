@@ -6,10 +6,19 @@ namespace Animation
 {
     public class AnimationDNABlock
     {
+        /**
+         * Full name of the animation frame, including direction.
+         * eg: "body_male_light_sl_l"
+         */
         public string AnimationKey { get; }
         public List<Sprite> SpriteList { get; }
         public int SortingOrder { get; }
+
         public string Direction { get; }
+
+        /**
+         * Controlling  whether set sprite info in SpriteRenderer
+         */
         public bool Enabled;
         public bool IsDirty;
         public Color SpriteColor { get; private set; }
