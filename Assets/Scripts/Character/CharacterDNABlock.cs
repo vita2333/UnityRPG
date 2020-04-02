@@ -42,7 +42,6 @@ namespace Character
         public void Update(string modelKey, Color itemColor)
         {
             ModelKey = modelKey;
-            Debug.Log("modelKey===" + modelKey);
             ItemColor = itemColor;
             IsDirty = true;
             // disable the character block if there is no model key

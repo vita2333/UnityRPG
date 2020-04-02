@@ -60,19 +60,44 @@ namespace Character
 
         void UpdatePositoning()
         {
+            if (Input.GetKeyDown(KeyCode.LeftShift)) { SpeedCurrent = SpeedRun; }
+            else { SpeedCurrent = SpeedWalk; }
+
+            SpeedAnimation = SpeedCurrent;
+
+            float moveAmount = SpeedCurrent * Time.deltaTime;
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
+
+            float absHorizontal = Mathf.Abs(moveHorizontal);
+            float absVertical = Mathf.Abs(moveVertical);
+
+            bool isDiagnonal = absHorizontal > 0 && absVertical > 0;
+            if (isDiagnonal)
+            {
+                moveAmount *= 0.75f; // account for diagonal movement speed increase
+            }
+
+            if (moveHorizontal > 0) { gameObject.transform.position += moveAmount * absHorizontal * Vector3.right; }
+            else if (moveHorizontal < 0) { gameObject.transform.position += moveAmount * absHorizontal * Vector3.left; }
+
+            if (moveVertical > 0) { gameObject.transform.position += moveAmount * absVertical * Vector3.up; }
+            else if (moveVertical < 0) { gameObject.transform.position += moveAmount * absVertical * Vector3.down; }
+
+            _isStillMoving = absHorizontal > 0 || absVertical > 0;
         }
 
         void UpdateAnimation()
         {
             string newDirection;
             HanleInput(out newDirection);
-            
-            
+
+
             // continue using the last direction when the character stops moving
             if (newDirection == DirectionType.None) { newDirection = _lastDirection; }
 
             bool sameAction = _lastDirection == newDirection && _lastInput == _newInput;
-            
+
             _charAnimator.UpdateAnimationTime(1 / SpeedAnimation);
 
             if (!sameAction || Player.CharacterDNA.IsDirty())
@@ -143,10 +168,7 @@ namespace Character
                 _newInput = KeyCode.X;
                 SpeedAnimation = 1.0f;
             }
-            else
-            {
-                _newInput = KeyCode.None;
-            }
+            else { _newInput = KeyCode.None; }
         }
     }
 }
