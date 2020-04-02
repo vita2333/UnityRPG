@@ -34,7 +34,6 @@ namespace Scene
             _playerController = _player.GetComponent<PlayerController>();
         }
 
-        private bool _threadStarting;
 
         private void Update()
         {
@@ -44,7 +43,6 @@ namespace Scene
                 _animationLoading = true;
                 Thread thread = new Thread(_animationManager.LoadAllAnimationsIntoCache);
                 thread.Start();
-                _threadStarting = true;
             }
         }
 
@@ -55,13 +53,10 @@ namespace Scene
             {
                 int modelsLoaded = AtlasManager.Instance.ModelsLoaded;
                 int modelTotal = AtlasManager.Instance.ModelsTotal;
-
                 // Loading message
                 GUI.Box(new Rect(0, 0, Screen.width, Screen.height),
                     "加载所有Sprite中..." + Math.Floor((double) modelsLoaded / modelTotal * 100) + "%");
-                if (!_threadStarting && modelsLoaded == modelTotal) { return; }
-
-                if (modelsLoaded == modelTotal) { _threadStarting = false; }
+                if (modelsLoaded == modelTotal) { return; }
 
 
                 // The sprites are all cached. Lets initialize the scene.
@@ -112,7 +107,7 @@ namespace Scene
             _modelTextLookup[DNABlockType.Hair] = "hair_female_shoulderr";
             _modelTextLookup[DNABlockType.Hands] = "hands_female_cloth";
             _modelTextLookup[DNABlockType.Legs] = "legs_female_pants";
-            _modelTextLookup[DNABlockType.Body] = "body_female_dark";
+            _modelTextLookup[DNABlockType.Body] = "body_female_light";
 
             // this will update the characterDNA, flagging it as dirty and causing the first frame to animate
             Player.CharacterDNA.UpdateBlock(DNABlockType.Neck, _modelTextLookup[DNABlockType.Neck],
