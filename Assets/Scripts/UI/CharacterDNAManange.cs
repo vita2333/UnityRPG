@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using Animation;
+using Character;
 using Core;
 using Types;
 using UnityEngine;
@@ -32,8 +35,53 @@ namespace UI
         {
             InitializeBlockModelLookup();
             InitializeCharacterDNA();
+
+            if (AtlasManager.Instance.ModelsLoaded <= 0)
+            {
+                Thread thread = new Thread(new AnimationManager().LoadAllAnimationsIntoCache);
+                thread.Start();
+            }
         }
 
+        void InitializeBlockModelLookup()
+        {
+            // Create an instance of StreamReader to read from a file.
+            // The using statement also closes the StreamReader.
+            using (StreamReader streamReader = new StreamReader("model-list.txt"))
+            {
+                // Read and display lines from the file until the end of  the file is reached.
+                string line;
+                while ((line = streamReader.ReadLine()) != null)
+                {
+                    string blockType = line.Split('_')[0].ToUpper();
+                    string gender = line.Split('_')[1];
+                    switch (gender)
+                    {
+                        case "male":
+                            _blockModelLookup[blockType]["male"].Add(line);
+                            break;
+                        case "female":
+                            _blockModelLookup[blockType]["female"].Add(line);
+                            break;
+                        case "both":
+                            _blockModelLookup[blockType]["male"].Add(line);
+                            _blockModelLookup[blockType]["female"].Add(line);
+                            break;
+                        default:
+                            Debug.Log("===" + $"Unkonown gender: {gender} in {line}");
+                            break;
+                    }
+                }
+            }
+        }
+
+        void InitializeCharacterDNA()
+        {
+            Player.CharacterDNA = new CharacterDNA();
+            Player.AnimationDNA = new AnimationDNA();
+            var player = new GameObject("Player");
+            player.AddComponent<PlayerController>();
+        }
 
         private void OnGUI()
         {
@@ -89,46 +137,11 @@ namespace UI
 
                     ModelIndex[blockType] = index;
                     y += 20;
+                    Player.CharacterDNA.UpdateBlock(blockType, genderModelLookup[index - 1], new Color());
                 }
             }
         }
 
-        void InitializeBlockModelLookup()
-        {
-            // Create an instance of StreamReader to read from a file.
-            // The using statement also closes the StreamReader.
-            using (StreamReader streamReader = new StreamReader("model-list.txt"))
-            {
-                // Read and display lines from the file until the end of  the file is reached.
-                string line;
-                while ((line = streamReader.ReadLine()) != null)
-                {
-                    string blockType = line.Split('_')[0].ToUpper();
-                    string gender = line.Split('_')[1];
-                    switch (gender)
-                    {
-                        case "male":
-                            _blockModelLookup[blockType]["male"].Add(line);
-                            break;
-                        case "female":
-                            _blockModelLookup[blockType]["female"].Add(line);
-                            break;
-                        case "both":
-                            _blockModelLookup[blockType]["male"].Add(line);
-                            _blockModelLookup[blockType]["female"].Add(line);
-                            break;
-                        default:
-                            Debug.Log("===" + $"Unkonown gender: {gender} in {line}");
-                            break;
-                    }
-                }
-            }
-        }
-
-        void InitializeCharacterDNA()
-        {
-            // todo
-        }
 
         void ResetModelIndex()
         {
