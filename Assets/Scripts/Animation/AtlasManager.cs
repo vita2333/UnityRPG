@@ -10,6 +10,10 @@ namespace Animation
     {
         public static AtlasManager Instance;
 
+        /**
+         * Dictionary for blockType => { spriteName => Sprite }
+         * eg: "BODY" => { "waist_female_platemail_sh_t_2" => Sprite }
+         */
         private readonly Dictionary<string, Dictionary<string, Sprite>> _atlasLookup =
             new Dictionary<string, Dictionary<string, Sprite>>();
 
