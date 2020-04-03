@@ -8,13 +8,12 @@ using UnityEngine;
 // 配置AtlasManger的Inspector窗口,放在Assets/Editor文件夹下即可
 public class AtlasManagerEditor : Editor
 {
-    
     private const string PathToCharacterTextures = "/Sprites/Standard/Character/";
     private const string PathToEquipmentTextures = "/Sprites/Standard/Equipment/";
-    
+
     private AtlasManager _am;
     private bool _dirty;
-    
+
     public override void OnInspectorGUI()
     {
         _am = target as AtlasManager;
@@ -31,13 +30,13 @@ public class AtlasManagerEditor : Editor
         if (GUILayout.Button("Load"))
         {
             UnloadSprites();
-            
+
             var characterSprites = Directory.GetFiles(Application.dataPath + PathToCharacterTextures, "*",
                 SearchOption.AllDirectories);
             var equipmentSprites = Directory.GetFiles(Application.dataPath + PathToEquipmentTextures, "*",
                 SearchOption.AllDirectories);
-            
-            
+
+
             LoadFiles(characterSprites);
             LoadFiles(equipmentSprites);
 
@@ -74,7 +73,6 @@ public class AtlasManagerEditor : Editor
                 Sprite s = item as Sprite;
                 if (s == null) { continue; }
 
-                Debug.Log("sprite name===" + s.name);
                 _am.SpriteList.Add(s);
                 _dirty = true;
             }
@@ -84,7 +82,7 @@ public class AtlasManagerEditor : Editor
     void UpdateModelList(string filepath)
     {
         // Add the spritesheet (model) to the model list 
-       
+
         var pathBranch = filepath.Split('/');
         string prefix = "";
         for (int i = 4; i < pathBranch.Length - 1; i++)

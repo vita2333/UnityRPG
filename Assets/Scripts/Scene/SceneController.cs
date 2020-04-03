@@ -53,7 +53,10 @@ namespace Scene
                 // Loading message
                 GUI.Box(new Rect(0, 0, Screen.width, Screen.height),
                     "加载所有Sprite中..." + Math.Floor((double) modelsLoaded / modelTotal * 100) + "%");
-                if (modelsLoaded == modelTotal) { return; }
+                if (modelsLoaded == modelTotal && Player.AnimationDNA != null && Player.CharacterDNA != null)
+                {
+                    return;
+                }
 
 
                 // The sprites are all cached. Lets initialize the scene.
@@ -63,6 +66,7 @@ namespace Scene
                 _animationsLoaded = true;
                 _playerController.enabled = true; // 此处启用PlayController,保证PlayerController在加载后执行
             }
+            else { DrawButtons(); }
         }
 
         void InitializeCharacterUI()
@@ -123,6 +127,22 @@ namespace Scene
                 _modelColorLookup[DNABlockType.Legs]);
             Player.CharacterDNA.UpdateBlock(DNABlockType.Body, _modelTextLookup[DNABlockType.Body],
                 _modelColorLookup[DNABlockType.Body]);
+        }
+
+        void DrawButtons()
+        {
+            float increaseYAmt = 25;
+            float currentX = 35;
+            float currentY = 30;
+
+            // generate the model text boxes
+            GUI.Label(new Rect(100, 10, 200, 20), "Model Key IDs");
+            foreach (string blockType in DNABlockType.TypeList)
+            {
+                GUI.Label(new Rect(currentX, currentY, 60, 20), $"{blockType.ToLower()}:");
+                GUI.Label(new Rect(currentX + 60, currentY, 175, 20), _modelTextLookup[blockType]);
+                currentY += increaseYAmt;
+            }
         }
     }
 }

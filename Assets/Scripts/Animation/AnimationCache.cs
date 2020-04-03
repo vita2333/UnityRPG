@@ -13,7 +13,6 @@ namespace Animation
         private readonly Dictionary<string, Dictionary<string, AnimationDNABlock>> _cacheLookup =
             DNABlockType.TypeList.ToDictionary(bt => bt.ToLower(), v => new Dictionary<string, AnimationDNABlock>());
 
-
         public void Add(string animationKey, AnimationDNABlock animationDnaBlock)
         {
             string cacheKey = animationKey.Split('_').FirstOrDefault();
