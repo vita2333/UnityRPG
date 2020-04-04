@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using Animation;
 using Character;
-using Core;
 using Types;
 using UnityEngine;
 
@@ -13,28 +12,47 @@ namespace UI
     public class CharacterDNAManange : MonoBehaviour
     {
         /**
-         * Body => 1 . Notice that start with 1 rather than 0.
+         * Body => 1 . Start with index 0 , -1 means empty.
          */
-        public Dictionary<string, int> ModelIndex { get; private set; } =
+        public Dictionary<string, int> ModelsIndex { get; private set; } =
             DNABlockType.TypeList.ToDictionary(bt => bt, v => -1);
 
-        public string Gender = "male";
+        public string Gender;
+
+        public Dictionary<string, Color> ModelsColor { get; } =
+            DNABlockType.TypeList.ToDictionary(bt => bt, v => Color.clear);
+
+        private string _colorModelKey = "";
+        private string _colorBlockType = "";
 
         /**
          * Body => [ male => [ modelKey1, modelKey2 ... ]]
          */
         private Dictionary<string, Dictionary<string, List<string>>> _blockModelLookup =
-            DNABlockType.TypeList.ToDictionary(bt => bt, v => new Dictionary<string, List<string>>()
-            {
-                {"male", new List<string>()},
-                {"female", new List<string>()},
-                {"both", new List<string>()}
-            });
+            DNABlockType.TypeList.ToDictionary(bt => bt, v =>
+                new Dictionary<string, List<string>>()
+                {
+                    {"male", new List<string>()},
+                    {"female", new List<string>()},
+                    {"both", new List<string>()}
+                });
 
         private void Start()
         {
             InitializeBlockModelLookup();
             InitializeCharacterDNA();
+
+            // set default
+            Gender = "male";
+            ModelsIndex[DNABlockType.Body] = 5;
+            ModelsIndex[DNABlockType.Hair] = 0;
+            ModelsIndex[DNABlockType.Chest] = 4;
+            ModelsIndex[DNABlockType.Legs] = 1;
+            ModelsIndex[DNABlockType.Feet] = 1;
+
+            ModelsColor[DNABlockType.Hair] = Color.red;
+            ModelsColor[DNABlockType.Feet] = Color.red;
+            ModelsColor[DNABlockType.Chest] = Color.yellow;
 
             if (AtlasManager.Instance.ModelsLoaded <= 0)
             {
@@ -87,7 +105,7 @@ namespace UI
         {
             float x = 10;
             float y = 10;
-            float w = 50;
+            float w = 70;
             float h = 20;
             float margin = 20;
 
@@ -105,28 +123,28 @@ namespace UI
             y += 20;
 
             // DNA
+
             foreach (string blockType in DNABlockType.TypeList)
             {
                 var genderModelLookup = _blockModelLookup[blockType][Gender];
                 if (genderModelLookup.Count > 0)
                 {
-                    int index = ModelIndex[blockType];
+                    int index = ModelsIndex[blockType];
 
                     GUI.Label(new Rect(x, y, w, h), $"{blockType}:");
                     if (GUI.Button(new Rect(x + w + margin, y, w, h), "-"))
                     {
                         index--;
                         if (index < -1) { index = genderModelLookup.Count - 1; }
-
-                        Debug.Log(ObjectDumper.Dump(genderModelLookup));
                     }
 
 
                     string modelText;
                     if (index > -1)
                     {
-                        modelText = genderModelLookup[index].Replace($"{blockType.ToLower()}_{Gender}_", "")
-                            .Replace($"{blockType.ToLower()}_both_", "");
+                        modelText = $"{index}_" + genderModelLookup[index]
+                                        .Replace($"{blockType.ToLower()}_{Gender}_", "")
+                                        .Replace($"{blockType.ToLower()}_both_", "");
                     }
                     else { modelText = "无"; }
 
@@ -135,14 +153,34 @@ namespace UI
                     {
                         index++;
                         if (index > genderModelLookup.Count - 1) { index = -1; }
-
-                        Debug.Log(ObjectDumper.Dump(genderModelLookup));
                     }
 
+                    if (GUI.Button(new Rect(x + w * 4 + margin, y, w, h), "Color")
+                    )
+                    {
+                        _colorBlockType = blockType;
+                        _colorModelKey = index > -1 ? genderModelLookup[index] : "";
+                    }
 
-                    ModelIndex[blockType] = index;
+                    ModelsIndex[blockType] = index;
                     y += 20;
-                    Player.CharacterDNA.UpdateBlock(blockType, index > -1 ? genderModelLookup[index] : "", new Color());
+                    Player.CharacterDNA.UpdateBlock(blockType, index > -1 ? genderModelLookup[index] : "",
+                        ModelsColor[blockType]);
+                }
+            }
+
+            // change color
+            if (_colorBlockType.Length > 0)
+            {
+                Color color = new Color(
+                    GUI.HorizontalSlider(new Rect(x, y, w, h), ModelsColor[_colorBlockType].r, 0, 1),
+                    GUI.HorizontalSlider(new Rect(x, y + h, w, h), ModelsColor[_colorBlockType].g, 0, 1),
+                    GUI.HorizontalSlider(new Rect(x, y + h * 2, w, h), ModelsColor[_colorBlockType].b, 0, 1),
+                    ModelsColor[_colorBlockType].a);
+                if (!color.Equals(ModelsColor[_colorBlockType]))
+                {
+                    color.a = 1; // disable transparent when change color
+                    ModelsColor[_colorBlockType] = color;
                 }
             }
         }
@@ -150,7 +188,7 @@ namespace UI
 
         void ResetModelIndex()
         {
-            foreach (string blockType in DNABlockType.TypeList) { ModelIndex[blockType] = -1; }
+            foreach (string blockType in DNABlockType.TypeList) { ModelsIndex[blockType] = -1; }
         }
     }
 }

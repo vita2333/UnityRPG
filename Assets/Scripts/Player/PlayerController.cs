@@ -28,6 +28,7 @@ namespace Character
         {
             // prepare charactor sprites
             _playerObject = GameObject.Find("/Player"); // same as      _playerObject = gameObject;
+
             _charAnimator = gameObject.AddComponent<AnimationRenderer>();
             InitializeCharacterRenderers(_charAnimator);
 
@@ -44,7 +45,9 @@ namespace Character
             {
                 GameObject blockObject = new GameObject(blockKey);
                 blockObject.transform.parent = _playerObject.transform;
+                blockObject.transform.position += Vector3.right * 3;
                 blockObject.transform.localScale = new Vector3(6, 6, 6);
+
                 spriteRenderers[blockKey] = blockObject.AddComponent<SpriteRenderer>();
             }
 

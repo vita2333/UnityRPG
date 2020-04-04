@@ -317,6 +317,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gender: male
+  ColorR: 255
+  ColorG: 255
+  ColorB: 255
+  ColorA: 255
 --- !u!114 &1211261268
 MonoBehaviour:
   m_ObjectHideFlags: 0
