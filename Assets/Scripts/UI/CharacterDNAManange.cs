@@ -32,8 +32,8 @@ namespace UI
             DNABlockType.TypeList.ToDictionary(bt => bt, v =>
                 new Dictionary<string, List<string>>()
                 {
-                    {"male", new List<string>()},
-                    {"female", new List<string>()},
+                    {Types.Gender.Male, new List<string>()},
+                    {Types.Gender.Female, new List<string>()},
                     {"both", new List<string>()}
                 });
 
@@ -42,22 +42,44 @@ namespace UI
             InitializeBlockModelLookup();
             InitializeCharacterDNA();
 
+            Gender = Types.Gender.Male;
             // set default
-            Gender = "male";
-            ModelsIndex[DNABlockType.Body] = 5;
-            ModelsIndex[DNABlockType.Hair] = 0;
-            ModelsIndex[DNABlockType.Chest] = 4;
-            ModelsIndex[DNABlockType.Legs] = 1;
-            ModelsIndex[DNABlockType.Feet] = 1;
-
-            ModelsColor[DNABlockType.Hair] = Color.red;
-            ModelsColor[DNABlockType.Feet] = Color.red;
-            ModelsColor[DNABlockType.Chest] = Color.yellow;
+            SetDefaultDNA();
 
             if (AtlasManager.Instance.ModelsLoaded <= 0)
             {
                 Thread thread = new Thread(new AnimationManager().LoadAllAnimationsIntoCache);
                 thread.Start();
+            }
+        }
+
+        void SetDefaultDNA()
+        {
+            foreach (string blockType in DNABlockType.TypeList) { ModelsIndex[blockType] = -1; }
+
+            if (Gender == Types.Gender.Male)
+            {
+                ModelsIndex[DNABlockType.Body] = 5;
+                ModelsIndex[DNABlockType.Hair] = 0;
+                ModelsIndex[DNABlockType.Chest] = 4;
+                ModelsIndex[DNABlockType.Legs] = 1;
+                ModelsIndex[DNABlockType.Feet] = 1;
+
+                ModelsColor[DNABlockType.Hair] = Color.red;
+                ModelsColor[DNABlockType.Feet] = Color.red;
+                ModelsColor[DNABlockType.Chest] = Color.yellow;
+            }
+            else
+            {
+                ModelsIndex[DNABlockType.Body] = 5;
+                ModelsIndex[DNABlockType.Hair] = 0;
+                ModelsIndex[DNABlockType.Chest] = 1;
+                ModelsIndex[DNABlockType.Legs] = 1;
+                ModelsIndex[DNABlockType.Feet] = 1;
+
+                ModelsColor[DNABlockType.Hair] = Color.red;
+                ModelsColor[DNABlockType.Feet] = Color.red;
+                ModelsColor[DNABlockType.Chest] = Color.yellow;
             }
         }
 
@@ -75,15 +97,15 @@ namespace UI
                     string gender = line.Split('_')[1];
                     switch (gender)
                     {
-                        case "male":
-                            _blockModelLookup[blockType]["male"].Add(line);
+                        case Types.Gender.Male:
+                            _blockModelLookup[blockType][Types.Gender.Male].Add(line);
                             break;
-                        case "female":
-                            _blockModelLookup[blockType]["female"].Add(line);
+                        case Types.Gender.Female:
+                            _blockModelLookup[blockType][Types.Gender.Female].Add(line);
                             break;
                         case "both":
-                            _blockModelLookup[blockType]["male"].Add(line);
-                            _blockModelLookup[blockType]["female"].Add(line);
+                            _blockModelLookup[blockType][Types.Gender.Male].Add(line);
+                            _blockModelLookup[blockType][Types.Gender.Female].Add(line);
                             break;
                         default:
                             Debug.Log("===" + $"Unkonown gender: {gender} in {line}");
@@ -111,12 +133,12 @@ namespace UI
 
             // gender
             GUI.Label(new Rect(x, y, w, h), "GENDER:");
-            foreach (var gender in new List<string> {"male", "female"})
+            foreach (var gender in new List<string> {Types.Gender.Male, Types.Gender.Female})
             {
-                if (GUI.Button(new Rect(x + w * (gender == "male" ? 1 : 2) + margin, y, w, h), gender))
+                if (GUI.Button(new Rect(x + w * (gender == Types.Gender.Male ? 1 : 2) + margin, y, w, h), gender))
                 {
                     Gender = gender;
-                    ResetModelIndex();
+                    SetDefaultDNA();
                 }
             }
 
@@ -183,12 +205,6 @@ namespace UI
                     ModelsColor[_colorBlockType] = color;
                 }
             }
-        }
-
-
-        void ResetModelIndex()
-        {
-            foreach (string blockType in DNABlockType.TypeList) { ModelsIndex[blockType] = -1; }
         }
     }
 }
