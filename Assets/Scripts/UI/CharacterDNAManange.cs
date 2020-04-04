@@ -16,7 +16,7 @@ namespace UI
          * Body => 1 . Notice that start with 1 rather than 0.
          */
         public Dictionary<string, int> ModelIndex { get; private set; } =
-            DNABlockType.TypeList.ToDictionary(bt => bt, v => 1);
+            DNABlockType.TypeList.ToDictionary(bt => bt, v => -1);
 
         public string Gender = "male";
 
@@ -116,28 +116,33 @@ namespace UI
                     if (GUI.Button(new Rect(x + w + margin, y, w, h), "-"))
                     {
                         index--;
-                        if (index < 1) { index = genderModelLookup.Count; }
+                        if (index < -1) { index = genderModelLookup.Count - 1; }
 
                         Debug.Log(ObjectDumper.Dump(genderModelLookup));
                     }
 
-                    GUI.Label(new Rect(x + w * 2 + margin, y, w, h), index.ToString());
+
+                    string modelText;
+                    if (index > -1)
+                    {
+                        modelText = genderModelLookup[index].Replace($"{blockType.ToLower()}_{Gender}_", "")
+                            .Replace($"{blockType.ToLower()}_both_", "");
+                    }
+                    else { modelText = "无"; }
+
+                    GUI.Label(new Rect(x + w * 2 + margin, y, w, h), modelText);
                     if (GUI.Button(new Rect(x + w * 3 + margin, y, w, h), "+"))
                     {
                         index++;
-                        if (index > genderModelLookup.Count) { index = 1; }
+                        if (index > genderModelLookup.Count - 1) { index = -1; }
 
                         Debug.Log(ObjectDumper.Dump(genderModelLookup));
                     }
 
-                    string modelText = genderModelLookup[index - 1].Replace($"{blockType.ToLower()}_{Gender}_", "")
-                        .Replace($"{blockType.ToLower()}_both_", "");
-
-                    GUI.Label(new Rect(x + w * 4 + margin, y, 100, h), modelText);
 
                     ModelIndex[blockType] = index;
                     y += 20;
-                    Player.CharacterDNA.UpdateBlock(blockType, genderModelLookup[index - 1], new Color());
+                    Player.CharacterDNA.UpdateBlock(blockType, index > -1 ? genderModelLookup[index] : "", new Color());
                 }
             }
         }
@@ -145,7 +150,7 @@ namespace UI
 
         void ResetModelIndex()
         {
-            foreach (string blockType in DNABlockType.TypeList) { ModelIndex[blockType] = 1; }
+            foreach (string blockType in DNABlockType.TypeList) { ModelIndex[blockType] = -1; }
         }
     }
 }
