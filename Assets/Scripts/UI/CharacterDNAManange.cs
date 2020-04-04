@@ -6,6 +6,7 @@ using Animation;
 using Character;
 using Types;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UI
 {
@@ -51,6 +52,7 @@ namespace UI
                 Thread thread = new Thread(new AnimationManager().LoadAllAnimationsIntoCache);
                 thread.Start();
             }
+            
         }
 
         void SetDefaultDNA()
@@ -130,7 +132,10 @@ namespace UI
             float w = 70;
             float h = 20;
             float margin = 20;
+            
+            if (GUI.Button(new Rect(300, 10, 100, 20), "Close")) { SceneManager.LoadScene(0); }
 
+            
             // gender
             GUI.Label(new Rect(x, y, w, h), "GENDER:");
             foreach (var gender in new List<string> {Types.Gender.Male, Types.Gender.Female})

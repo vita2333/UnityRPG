@@ -5,6 +5,7 @@ using Animation;
 using Character;
 using Types;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scene
 {
@@ -131,18 +132,7 @@ namespace Scene
 
         void DrawButtons()
         {
-            float increaseYAmt = 25;
-            float currentX = 35;
-            float currentY = 30;
-
-            // generate the model text boxes
-            GUI.Label(new Rect(100, 10, 200, 20), "Model Key IDs");
-            foreach (string blockType in DNABlockType.TypeList)
-            {
-                GUI.Label(new Rect(currentX, currentY, 60, 20), $"{blockType.ToLower()}:");
-                GUI.Label(new Rect(currentX + 60, currentY, 175, 20), _modelTextLookup[blockType]);
-                currentY += increaseYAmt;
-            }
+            if (GUI.Button(new Rect(0, 0, 100, 20), "Clothes")) { SceneManager.LoadScene("UIScene"); }
         }
     }
 }
